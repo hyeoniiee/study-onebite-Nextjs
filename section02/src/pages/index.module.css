@@ -1,0 +1,18 @@
+.h1 {
+  color: red;
+}
+
+.h2 {
+  color: blue;
+}
+
+/* 
+import "./index.css"; (X)
+import style from "./index.module.css"; (O)
+
+CSS 모듈을 활용해야 하는 이유
+next.js 에서는 페이지별로 css의 클래스 네임이 겹치는 문제를 원천 차단하기 위해서 
+app 컴포넌트를 제외하고서는 { import "@/styles/globals.css"; } 식으로 
+글로벌 css파일을 그대로 import 하는것을 방지하고 있기 때문에
+css 모듈이라는 문법을 활용해야 한다.
+*/

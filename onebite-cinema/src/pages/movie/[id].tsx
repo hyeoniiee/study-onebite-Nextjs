@@ -3,6 +3,7 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import fetchMovies from "@/lib/fetch-movies";
 import fetchOneMovie from "@/lib/fetch-one-movie";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export const getStaticPaths = async () => {
   const movies = await fetchMovies();
@@ -14,9 +15,6 @@ export const getStaticPaths = async () => {
   };
 };
 
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const id = context.params!.id;
   const movie = await fetchOneMovie(Number(id));
@@ -42,7 +40,7 @@ export default function Page({
   if (router.isFallback) return "로딩중입니다.";
   if (!movie) return "문제가 발생했습니다. 다시 시도해 주세요";
   const {
-    id,
+    //id,
     title,
     releaseDate,
     company,
@@ -54,20 +52,28 @@ export default function Page({
   } = movie;
 
   return (
-    <div className={style.container}>
-      <div
-        className={style.cover_img_container}
-        style={{ backgroundImage: `url('${posterImgUrl}')` }}
-      >
-        <img src={posterImgUrl} />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta property="og:image" content={posterImgUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+      </Head>
+      <div className={style.container}>
+        <div
+          className={style.cover_img_container}
+          style={{ backgroundImage: `url('${posterImgUrl}')` }}
+        >
+          <img src={posterImgUrl} />
+        </div>
+        <h2 className={style.title}>{title}</h2>
+        <div className={style.movie_info}>
+          {releaseDate} / {genres} / {runtime}분
+        </div>
+        <div className={style.company}>{company}</div>
+        <div className={style.sub_title}>{subTitle}</div>
+        <div className={style.description}>{description}</div>
       </div>
-      <h2 className={style.title}>{title}</h2>
-      <div className={style.movie_info}>
-        {releaseDate} / {genres} / {runtime}분
-      </div>
-      <div className={style.company}>{company}</div>
-      <div className={style.sub_title}>{subTitle}</div>
-      <div className={style.description}>{description}</div>
-    </div>
+    </>
   );
 }

@@ -37,10 +37,10 @@ export default function Home({
           content="한입 시네마에 등록된 다양한 영화들을 만나보세요"
         />
       </Head>
-      <div className={style.conatiner}>
+      <div className={style.container}>
         <section>
           <h3>지금 가장 추천하는 영화</h3>
-          <div className={style.reco_conatiner}>
+          <div className={style.reco_container}>
             {recoMovies.map((movie) => (
               <MovieItem key={`recomovie-${movie.id}`} {...movie} />
             ))}

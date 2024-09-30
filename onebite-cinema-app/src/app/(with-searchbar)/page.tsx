@@ -6,7 +6,7 @@ import { delay } from "@/util/delay";
 import { Suspense } from "react";
 
 async function AllMovies() {
-  await delay(1500);
+  // await delay(1500);
 
   // 전체 영화 데이터는 새로운 영화가 추가되거나 삭제되지 않으므로 "force-cache" 적용
   const response = await fetch(
@@ -29,7 +29,7 @@ async function AllMovies() {
 }
 
 async function RecoMovies() {
-  await delay(3000);
+  // await delay(3000);
 
   // 랜덤으로 제공되는 데이터이므로 추천 영화를 변경하기 위해 "revalidate" 적용
   const response = await fetch(

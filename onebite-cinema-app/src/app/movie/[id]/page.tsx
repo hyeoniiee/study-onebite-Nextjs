@@ -1,40 +1,35 @@
-import style from "./page.module.css";
-import { MovieData } from "@/types";
 import { notFound } from "next/navigation";
+import style from "./page.module.css";
+import { MovieData, ReviewData } from "@/types";
+import ReviewItem from "@/components/review-item";
+import ReviewEditor from "@/components/review-editor";
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`,
-      { cache: "force-cache" }
-    );
-    if (!response.ok) {
-      throw new Error("오류가 발생했습니다...");
-    }
-
-    const movies: MovieData[] = await response.json();
-
-    return movies.map(({ id }) => ({
-      id: id.toString(),
-    }));
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
-
-export default async function Page({
-  params,
-}: {
-  params: { id: string | string[] };
-}) {
-  // 영화 상세페이지의 데이터는 변경되지 않기 때문에 "force-cache" 적용
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${params.id}`,
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`,
     { cache: "force-cache" }
   );
+
+  if (!response.ok) {
+    throw new Error("오류가 발생했습니다...");
+  }
+
+  const movies: MovieData[] = await response.json();
+
+  return movies.map(({ id }) => ({
+    id: id.toString(),
+  }));
+}
+
+async function MovieDetail({ movieId }: { movieId: string }) {
+  // 영화 상세페이지의 데이터는 변경되지 않기 때문에 "force-cache" 적용
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${movieId}`,
+    { cache: "force-cache" }
+  );
+
   if (!response.ok) {
     if (response.status === 404) {
       notFound();
@@ -76,6 +71,36 @@ export default async function Page({
           <div className={style.description}>{description}</div>
         </div>
       </div>
+    </div>
+  );
+}
+
+async function ReviewList({ movieId }: { movieId: string }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/movie/${movieId}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`Review fetch failed : ${response.statusText}`);
+  }
+
+  const reviews: ReviewData[] = await response.json();
+
+  return (
+    <section>
+      {reviews.map((review) => (
+        <ReviewItem key={`review-item-${review.id}`} {...review} />
+      ))}
+    </section>
+  );
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
+  return (
+    <div className={style.container}>
+      <MovieDetail movieId={params.id} />
+      <ReviewEditor movieId={params.id} />
+      <ReviewList movieId={params.id} />
     </div>
   );
 }

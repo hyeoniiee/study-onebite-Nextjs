@@ -71,6 +71,7 @@ export default function Page({ params }: { params: { id: string } }) {
     <div className={style.container}>
       <BookDetail bookId={params.id} />
       <ReviewEditor bookId={params.id} />
+      <ReviewList bookId={params.id} />
     </div>
   );
 }

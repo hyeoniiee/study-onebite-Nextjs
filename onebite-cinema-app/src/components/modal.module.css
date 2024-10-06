@@ -1,17 +1,22 @@
 .modal {
-  width: 850px;
+  width: 80%;
+  max-width: 680px;
+
   margin-top: 20px;
-  background: #141414;
+  border-radius: 5px;
+  border: 2px solid rgba(30, 30, 30);
+
+  background-color: black;
+
   color: white;
-  border: none;
-  border-radius: 6px;
-  /*스크롤바*/
-  -ms-overflow-style: none; /* 인터넷 익스플로러 */
-  scrollbar-width: none; /* 파이어폭스 */
+
+  -ms-overflow-style: none;
 }
-.modal::backdrop {
-  background: rgba(0, 0, 0, 0.4);
-}
-.modal::-webkit-scrollbar {
+
+.modal::-wepkit-scrollbar {
   display: none;
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.7);
 }

@@ -14,9 +14,12 @@ export async function deleteReviewAction(_: any, formData: FormData) {
   }
 
   try {
-    const response = await fetch(`http://localhost:12345/review/${reviewId}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/${reviewId}`,
+      {
+        method: "DELETE",
+      }
+    );
 
     if (!response.ok) {
       throw new Error(response.statusText);

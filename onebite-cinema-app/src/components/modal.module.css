@@ -1,0 +1,17 @@
+.modal {
+  width: 850px;
+  margin-top: 20px;
+  background: #141414;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  /*스크롤바*/
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+.modal::-webkit-scrollbar {
+  display: none;
+}
